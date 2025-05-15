@@ -252,6 +252,7 @@ int main()
         default:
             cout << "Invalid Option\n";
         }
+        
         cout << "\nPress Enter to continue...";
         cin.ignore();
         cin.get();
