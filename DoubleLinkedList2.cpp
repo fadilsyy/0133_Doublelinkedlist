@@ -28,5 +28,6 @@ class DoubleLinkedList
 
             // Step 1: Allocate memory for new node
             Node *newNode = new Node();
+            
         }
 };
