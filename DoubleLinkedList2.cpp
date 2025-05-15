@@ -33,7 +33,7 @@ class DoubleLinkedList
             newNode->noMhs = nim;
 
             // Step 3: Insert at beginning if list is empty or nim is smallest
-            if (START != NULL && nim == START->noMhs)
+            if (START == NULL || nim <= START->noMhs)
             {
 
                 if (START != NULL && nim == START->noMhs)
@@ -77,7 +77,7 @@ class DoubleLinkedList
 
             // insert last node
             if(current->next != NULL)
-                current->next->prev = newNode; // Step 9c: curremt.next.prev = newMode
+                current->next->prev = newNode; // Step 9c: curremt.next.prev = newNode
             current->next = newNode;  // Step 9d: current.next = newNode
             
         }
@@ -90,7 +90,7 @@ class DoubleLinkedList
                 return;
             }
 
-            cout << "\nMasukkan NIM yang akan didelete";
+            cout << "\nMasukkan NIM yang akan didelete: ";
             int rollNo;
             cin >> rollNo;
 
@@ -113,9 +113,7 @@ class DoubleLinkedList
             {
                 START = current->next; // Step 2a: START = START.next
                 if (START != NULL)
-                {
                     START->prev = NULL; // Step 2b: START.prev = NULL
-                } 
             }
             else
             {
@@ -129,7 +127,135 @@ class DoubleLinkedList
 
             // Step 5: Delete the node
             delete current;
-            cout << "Record with roll number" << rollNo << "deleted" << endl;
+            cout << "Record with roll number" << rollNo << " deleted " << endl;
         }
         
+        void traverse()
+        {
+            if (START == NULL)
+            {
+                cout << "\nList is empty";
+                return;
+            }
+            
+            // Step 1: Mark first node as currentnode
+            Node *currentNode = START;
+
+            // Step 2: Repeat untill currentNode == NULL
+            cout << "\nRecords is ascending order of roll number are:\n";
+            int i = 0;
+            while (currentNode != NULL)
+            {
+                cout << i + 1 << ". " << currentNode->noMhs << " " << endl;
+
+                // Step 3: Move to next node
+                currentNode = currentNode->next;
+                i++;
+            }
+        }
+
+        void retraverse()
+        {
+            if (START == NULL)
+            {
+                cout << "\nList is empty" << endl;
+                return;
+            }
+            
+            // Step 1: Move to last node
+            Node *currentNode = START;
+            int i = 0;
+            while (currentNode->next != NULL)
+            {
+                currentNode = currentNode->next;
+                i++;
+            }
+            
+            // Step 2: Traverse backward
+            cout << "\nRecords is descending order of roll number are:\n";
+            while (currentNode != NULL)
+            {
+                cout << i + 1 << ". " << currentNode->noMhs << " " << endl;
+                
+                // Step 3: Move to previous node
+                currentNode = currentNode->prev;
+                i--;
+            }
+        } 
+
+        void searchData()
+        {
+            if (START == NULL)
+            {
+                cout << "\nList is empty" << endl;
+                return;
+            }
+
+            int rollNo;
+            cout << "\nEnter the roll number to search: ";
+            cin >> rollNo;
+
+            Node *current = START;
+
+            // Step 1: Traverse to find matching roll number
+            while (current != NULL && current->noMhs != rollNo)
+                current = current->next;
+
+                // Step 2: Output result
+            if (current == NULL)
+                cout << "Record not found\n";
+            else
+            {
+                cout << "Record found\n";
+                cout << "Roll Number: " << current->noMhs << endl;
+            }
+        }
 };
+
+int main()
+{
+    DoubleLinkedList list;
+    char choice;
+
+    do
+    {
+        cout << "\nMenu:\n";
+        cout << "1. Add Record\n";
+        cout << "2. Delete Record\n";
+        cout << "3. View Ascending\n";
+        cout << "4. View Descending\n";
+        cout << "5. Search Record\n";
+        cout << "6. Exit\n";
+        cout << "Enter your choice: ";
+
+        cin >> choice;
+
+        switch (choice)
+        {
+        case '1':
+            list.addNode();
+            break;
+        case '2':
+            list.hapus();
+            break;
+        case '3':
+            list.traverse();
+            break;
+        case '4':
+            list.retraverse();
+            break;
+        case '5':
+            list.searchData();
+            break;
+        case '6':
+            return 0;
+        default:
+            cout << "Invalid Option\n";
+        }
+        cout << "\nPress Enter to continue...";
+        cin.ignore();
+        cin.get();
+        cout << endl;
+        system("clear");
+    } while (choice != '6');
+}
